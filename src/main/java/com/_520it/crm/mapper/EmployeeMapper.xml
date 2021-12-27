@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Employee" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="inputtime" property="inputtime" jdbcType="DATE" />
+    <result column="state" property="state" jdbcType="BIT" />
+    <result column="admin" property="admin" jdbcType="BIT" />
+    <association property="dept" javaType="com._520it.crm.domain.Department" columnPrefix="d_">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+    </association>
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from employee
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com._520it.crm.domain.Employee" useGeneratedKeys="true" keyProperty="id" >
+    insert into employee (username, realname, password, 
+      tel, email, dept_id, 
+      inputtime, state, admin)
+    values (#{username}, #{realname}, #{password},
+      #{tel}, #{email}, #{dept.id},
+      #{inputtime}, #{state}, #{admin})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Employee" >
+    update employee
+    set username = #{username},
+      realname = #{realname},
+      tel = #{tel},
+      email = #{email},
+      inputtime = #{inputtime}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, username, realname, password, tel, email, dept_id, inputtime, state, admin
+    from employee
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, username, realname, password, tel, email, dept_id, inputtime, state, admin
+    from employee
+  </select>
+
+  <select id="getEmployeeForLogin" resultMap="BaseResultMap">
+    select * from employee where username = #{username} and password = #{password}
+  </select>
+
+  <sql id="where_sql"></sql>
+  <select id="queryForPageCount" resultType="long">
+    select count(*) from employee
+    <include refid="where_sql"/>
+  </select>
+  <select id="queryForPage" resultMap="BaseResultMap">
+    select
+    e.id, e.username, e.realname, e.tel, e.email, e.inputtime, e.state, e.admin,
+    d.id as d_id, d.name as d_name
+    from employee e left join department d on d.id = e.dept_id
+    <include refid="where_sql"/>
+    <if test="page!=null">
+      limit #{start},#{rows}
+    </if>
+  </select>
+    <update id="updateState" parameterType="long">
+        update employee set state = 0 where id = #{id}
+    </update>
+</mapper>
