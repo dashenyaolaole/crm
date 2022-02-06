@@ -48,10 +48,13 @@
 </div>
 <!-- 数据表格的顶部按钮 -->
 <div id="emp_datagrid_tb">
-    <a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add()">新增</a>
-    <a id="emp_datagrid_edit" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="edit()">编辑</a>
-    <a id="emp_datagrid_delete" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="del()">离职</a>
-    <a class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reload()">刷新</a>
+    <div>
+        <a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add()">新增</a>
+        <a id="emp_datagrid_edit" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="edit()">编辑</a>
+        <a id="emp_datagrid_delete" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="del()">离职</a>
+        <a class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reload()">刷新</a>
+    </div>
+    关键字查询：<input name="KeyWord"><a class="easyui-linkbutton" iconCls="icon-search" onclick="searchBtn()">搜索</a>
 </div>
 <!-- 对话框的底部按钮 -->
 <div id="emp_dialog_bt">

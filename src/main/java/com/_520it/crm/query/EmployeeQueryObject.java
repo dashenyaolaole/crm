@@ -7,6 +7,7 @@ import lombok.Setter;
 public class EmployeeQueryObject {
     private Integer page;//当前页
     private Integer rows;//每页行数
+    private String keyWord;
     //获取开始行数
     public Integer getStart(){
         return (this.page-1)*rows;

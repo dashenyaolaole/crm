@@ -35,7 +35,8 @@
       realname = #{realname},
       tel = #{tel},
       email = #{email},
-      inputtime = #{inputtime}
+      inputtime = #{inputtime},
+      dept_id = #{dept.id}
     where id = #{id}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -52,9 +53,17 @@
     select * from employee where username = #{username} and password = #{password}
   </select>
 
-  <sql id="where_sql"></sql>
+  <sql id="where_sql">
+    <where>
+      <if test="keyWord != null">
+        (e.username like concat('%',#{keyWord},'%')
+        OR e.realname like concat('%',#{keyWord},'%')
+        OR e.tel like concat('%',#{keyWord},'%'))
+      </if>
+    </where>
+  </sql>
   <select id="queryForPageCount" resultType="long">
-    select count(*) from employee
+    select count(*) from employee e
     <include refid="where_sql"/>
   </select>
   <select id="queryForPage" resultMap="BaseResultMap">

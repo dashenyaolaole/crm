@@ -134,3 +134,10 @@ function reload() {
 function cancel() {
     $("#emp_dialog").dialog("close");
 }
+
+function searchBtn() {
+    var value= $("[name='KeyWord']").val();
+    $("#emp_datagrid").datagrid("load",{
+        keyWord : value
+    });
+}
